@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Charmander">
+    
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/512/charmander.png">
 
     <style>
         :root {
@@ -298,12 +300,10 @@
         function setMode(mode) {
             currentMode = mode;
             
-            // Actualizar pestañas activas
             document.getElementById('btnSueldo').classList.toggle('active', mode === 'sueldo');
             document.getElementById('btnCueva').classList.toggle('active', mode === 'cueva');
             document.getElementById('btnGasto').classList.toggle('active', mode === 'gasto');
             
-            // Cambiar textos según selección
             const label = document.getElementById('labelConcepto');
             const btn = document.getElementById('btnRegistrar');
             
@@ -334,7 +334,6 @@
                     balance -= mov.monto;
                 }
 
-                // Darle formato a la etiqueta de tipo
                 let tagTxt = mov.tipo === 'sueldo' ? 'Sueldo' : mov.tipo === 'cueva' ? 'La Cueva' : 'Gasto';
 
                 const item = document.createElement('div');
@@ -379,7 +378,6 @@
             document.getElementById('monto').value = '';
         }
 
-        // Iniciar en modo sueldo por defecto
         setMode('sueldo');
         actualizarUI();
     </script>
