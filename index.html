@@ -1,96 +1,336 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Charmander Finanzas</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Charmander">
+
+    <style>
+        :root {
+            --primary: #FF7F27; /* Naranja Charmander */
+            --primary-dark: #E65C00;
+            --accent: #FFCC00; /* Amarillo flama */
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --text: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --income: #4CAF50;
+            --expense: #F44336;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding-top: env(safe-area-inset-top); /* Evita la isla dinámica/notch */
+            padding-bottom: env(safe-area-inset-bottom);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        /* Encabezado con Charmander */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 10px 0;
+        }
+
+        .charmander-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--surface);
+            border-radius: 50%;
+            padding: 5px;
+            border: 2px solid var(--primary);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Tarjeta de Balance */
+        .balance-card {
+            background: linear-gradient(135deg, var(--surface) 0%, #2a1b10 100%);
+            border: 1px solid rgba(255, 127, 39, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+
+        .balance-card h3 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Formulario */
+        .form-section {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: #2D2D2D;
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 12px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 127, 39, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Historial */
+        .history-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .transaction-item {
+            background: var(--surface);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .trans-info p {
+            font-weight: 600;
+        }
+
+        .trans-info span {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .trans-amount {
+            font-weight: 700;
+        }
+
+        .trans-amount.ingreso { color: var(--income); }
+        .trans-amount.gasto { color: var(--expense); }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <svg class="charmander-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 24 C16 12, 48 12, 48 24 C48 36, 44 48, 40 52 C36 56, 28 56, 24 52 C20 48, 16 36, 16 24 Z" fill="#FF7F27"/>
+                <path d="M24 32 C24 24, 40 24, 40 32 C40 42, 36 52, 32 52 C28 52, 24 42, 24 32 Z" fill="#FFCC00"/>
+                <circle cx="26" cy="22" r="3" fill="#121212"/>
+                <circle cx="26" cy="21" r="1" fill="#FFFFFF"/>
+                <circle cx="38" cy="22" r="3" fill="#121212"/>
+                <circle cx="38" cy="21" r="1" fill="#FFFFFF"/>
+                <path d="M20 26 Q22 28 24 26" stroke="#E65C00" stroke-width="2" fill="none"/>
+                <path d="M40 26 Q42 28 44 26" stroke="#E65C00" stroke-width="2" fill="none"/>
+                <path d="M42 46 Q54 44 52 32 Q46 36 44 44" fill="#FF3300"/>
+                <path d="M44 44 Q50 42 48 36 Q45 38 44 42" fill="#FFCC00"/>
+            </svg>
+            <h1>Charmander Finanzas</h1>
+        </div>
+
+        <div class="balance-card">
+            <h3>Balance Disponible</h3>
+            <div class="balance-amount" id="totalBalance">$0.00</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" id="btnIngreso" onclick="setMode('ingreso')">Ingresos</button>
+            <button class="tab-btn" id="btnGasto" onclick="setMode('gasto')">Gastos</button>
+        </div>
+
+        <div class="form-section">
+            <div class="input-group">
+                <label id="labelConcepto">Concepto del Ingreso</label>
+                <input type="text" id="concepto" placeholder="Ej. Venta, Sueldo, etc.">
+            </div>
+            <div class="input-group">
+                <label>Monto ($)</label>
+                <input type="number" id="monto" inputmode="decimal" placeholder="0.00">
+            </div>
+            <button class="submit-btn" onclick="agregarMovimiento()">Registrar Movimiento</button>
+        </div>
+
+        <div class="history-section">
+            <h2>Historial de Movimientos</h2>
+            <div class="transaction-list" id="listaMovimientos"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'ingreso';
+        let movimientos = JSON.parse(localStorage.getItem('charmander_movs')) || [];
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('btnIngreso').classList.toggle('active', mode === 'ingreso');
+            document.getElementById('btnGasto').classList.toggle('active', mode === 'gasto');
+            document.getElementById('labelConcepto').innerText = mode === 'ingreso' ? 'Concepto del Ingreso' : 'Concepto del Gasto';
+        }
+
+        function actualizarUI() {
+            const lista = document.getElementById('listaMovimientos');
+            lista.innerHTML = '';
+            let balance = 0;
+
+            movimientos.forEach(mov => {
+                if (mov.tipo === 'ingreso') {
+                    balance += mov.monto;
+                } else {
+                    balance -= mov.monto;
+                }
+
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                item.innerHTML = `
+                    <div class="trans-info">
+                        <p>${mov.concepto}</p>
+                        <span>${mov.fecha}</span>
+                    </div>
+                    <div class="trans-amount ${mov.tipo}">
+                        ${mov.tipo === 'ingreso' ? '+' : '-'}$${mov.monto.toFixed(2)}
+                    </div>
+                `;
+                lista.appendChild(item);
+            });
+
+            document.getElementById('totalBalance').innerText = `$${balance.toFixed(2)}`;
+            localStorage.setItem('charmander_movs', JSON.stringify(movimientos));
+        }
+
+        function agregarMovimiento() {
+            const concepto = document.getElementById('concepto').value.trim();
+            const monto = parseFloat(document.getElementById('monto').value);
+
+            if (!concepto || isNaN(monto) || monto <= 0) {
+                alert('Por favor mete un concepto y un monto válido.');
+                return;
+            }
+
+            const nuevoMov = {
+                id: Date.now(),
+                concepto: concepto,
+                monto: monto,
+                tipo: currentMode,
+                fecha: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })
+            };
+
+            movimientos.unshift(nuevoMov);
+            actualizarUI();
+
+            document.getElementById('concepto').value = '';
+            document.getElementById('monto').value = '';
+        }
+
+        actualizarUI();
+    </script>
+</body>
 </html>
