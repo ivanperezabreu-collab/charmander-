@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Charmander Finanzas</title>
+    <title>La Cueva - Control de Eventos</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Charmander">
+    <meta name="apple-mobile-web-app-title" content="La Cueva">
     
-    <link rel="apple-touch-icon" href="https://img.icons8.com/color/512/charmander.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/512/cocktail.png">
 
     <style>
         :root {
-            --primary: #FF7F27; /* Naranja Charmander */
-            --primary-dark: #E65C00;
-            --accent: #FFCC00; /* Amarillo flama */
-            --bg: #121212;
-            --surface: #1E1E1E;
-            --text: #FFFFFF;
-            --text-secondary: #AAAAAA;
-            --income-sueldo: #4CAF50; /* Verde */
-            --income-cueva: #00BCD4;  /* Azul La Cueva */
-            --expense: #F44336;       /* Rojo */
+            --bg-color: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --accent-color: #ffcc00;
+            --text-color: #ffffff;
+            --text-secondary: #aaaaaa;
+            --green: #2ecc71;
+            --red: #e74c3c;
+            --purple: #9b59b6;
         }
 
         * {
@@ -34,84 +32,46 @@
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding-top: env(safe-area-inset-top); /* Evita la isla dinámica/notch */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        .app-container {
+        .container {
             padding: 20px;
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
             margin: 0 auto;
             flex: 1;
         }
 
-        /* Encabezado con Charmander */
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            text-align: center;
             margin-bottom: 25px;
-            padding: 10px 0;
-        }
-
-        .charmander-logo {
-            width: 60px;
-            height: 60px;
-            background: var(--surface);
-            border-radius: 50%;
-            padding: 5px;
-            border: 2px solid var(--primary);
+            padding: 15px 0;
+            border-bottom: 2px solid var(--accent-color);
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
-            letter-spacing: 0.5px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Tarjeta de Balance */
-        .balance-card {
-            background: linear-gradient(135deg, var(--surface) 0%, #2a1b10 100%);
-            border: 1px solid rgba(255, 127, 39, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            margin-bottom: 25px;
-        }
-
-        .balance-card h3 {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 5px;
+            color: var(--accent-color);
+            text-transform: uppercase;
         }
 
-        .balance-amount {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        /* Tabs de 3 opciones fijas */
-        .tabs {
+        /* Tabs de Navegación */
+        .nav-tabs {
             display: flex;
-            background: var(--surface);
+            background: var(--card-bg);
             border-radius: 12px;
             padding: 5px;
             margin-bottom: 20px;
-            gap: 4px;
+            gap: 5px;
         }
 
         .tab-btn {
@@ -128,27 +88,27 @@
             text-align: center;
         }
 
-        .tab-btn.active[data-mode="sueldo"] {
-            background: var(--income-sueldo);
-            color: white;
+        .tab-btn.active[data-tab="ingresos"] { background: var(--green); color: white; }
+        .tab-btn.active[data-tab="gastos"] { background: var(--red); color: white; }
+        .tab-btn.active[data-tab="meseros"] { background: var(--purple); color: white; }
+        .tab-btn.active[data-tab="totales"] { background: var(--accent-color); color: #0d0d0d; }
+
+        /* Vistas/Secciones */
+        .tab-content {
+            display: none;
         }
 
-        .tab-btn.active[data-mode="cueva"] {
-            background: var(--income-cueva);
-            color: white;
+        .tab-content.active {
+            display: block;
         }
 
-        .tab-btn.active[data-mode="gasto"] {
-            background: var(--expense);
-            color: white;
-        }
-
-        /* Formulario */
-        .form-section {
-            background: var(--surface);
-            border-radius: 20px;
+        /* Formularios de entrada */
+        .form-card {
+            background: var(--card-bg);
+            border-radius: 15px;
             padding: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
         }
 
         .input-group {
@@ -160,11 +120,12 @@
             font-size: 14px;
             color: var(--text-secondary);
             margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .input-group input {
             width: 100%;
-            background: #2D2D2D;
+            background: #2b2b2b;
             border: 1px solid #444;
             border-radius: 10px;
             padding: 12px;
@@ -174,12 +135,11 @@
         }
 
         .input-group input:focus {
-            border-color: var(--primary);
+            border-color: var(--accent-color);
         }
 
-        .submit-btn {
+        .action-btn {
             width: 100%;
-            background: var(--primary);
             color: white;
             border: none;
             border-radius: 12px;
@@ -187,199 +147,311 @@
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255, 127, 39, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Historial */
-        .history-section h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: var(--text-secondary);
-        }
-
-        .transaction-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .transaction-item {
-            background: var(--surface);
-            padding: 15px;
+        /* Tablas e Listas de Datos */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
             border-radius: 12px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: #252525;
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table tr {
+            border-bottom: 1px solid #252525;
+        }
+
+        .data-table tr:last-child {
+            border-bottom: none;
+        }
+
+        /* Filas y Botes de Basura */
+        .flex-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .trans-info p {
-            font-weight: 600;
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: #ff4444;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
         }
 
-        .trans-info span {
-            font-size: 11px;
+        .delete-btn:active {
+            transform: scale(0.85);
+        }
+
+        /* Estilos de Totales */
+        .total-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c1f05 100%);
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-card h3 {
+            font-size: 16px;
             color: var(--text-secondary);
-            background: rgba(255,255,255,0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 6px;
         }
 
-        .trans-date {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            display: block;
-        }
-
-        .trans-amount {
+        .total-val {
+            font-size: 24px;
             font-weight: 700;
         }
 
-        .trans-amount.sueldo { color: var(--income-sueldo); }
-        .trans-amount.cueva { color: var(--income-cueva); }
-        .trans-amount.gasto { color: var(--expense); }
+        .total-val.g { color: var(--green); }
+        .total-val.r { color: var(--red); }
+        .total-val.a { color: var(--accent-color); }
+
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="container">
         <div class="header">
-            <svg class="charmander-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 24 C16 12, 48 12, 48 24 C48 36, 44 48, 40 52 C36 56, 28 56, 24 52 C20 48, 16 36, 16 24 Z" fill="#FF7F27"/>
-                <path d="M24 32 C24 24, 40 24, 40 32 C40 42, 36 52, 32 52 C28 52, 24 42, 24 32 Z" fill="#FFCC00"/>
-                <circle cx="26" cy="22" r="3" fill="#121212"/>
-                <circle cx="26" cy="21" r="1" fill="#FFFFFF"/>
-                <circle cx="38" cy="22" r="3" fill="#121212"/>
-                <circle cx="38" cy="21" r="1" fill="#FFFFFF"/>
-                <path d="M20 26 Q22 28 24 26" stroke="#E65C00" stroke-width="2" fill="none"/>
-                <path d="M40 26 Q42 28 44 26" stroke="#E65C00" stroke-width="2" fill="none"/>
-                <path d="M42 46 Q54 44 52 32 Q46 36 44 44" fill="#FF3300"/>
-                <path d="M44 44 Q50 42 48 36 Q45 38 44 42" fill="#FFCC00"/>
-            </svg>
-            <h1>Charmander Finanzas</h1>
+            <h1>La Cueva - Control</h1>
         </div>
 
-        <div class="balance-card">
-            <h3>Balance Disponible</h3>
-            <div class="balance-amount" id="totalBalance">$0.00</div>
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="ingresos" onclick="switchTab('ingresos')">Ingresos</button>
+            <button class="tab-btn" data-tab="gastos" onclick="switchTab('gastos')">Gastos</button>
+            <button class="tab-btn" data-tab="meseros" onclick="switchTab('meseros')">Meseros</button>
+            <button class="tab-btn" data-tab="totales" onclick="switchTab('totales')">Totales</button>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" id="btnSueldo" data-mode="sueldo" onclick="setMode('sueldo')">Sueldo</button>
-            <button class="tab-btn" id="btnCueva" data-mode="cueva" onclick="setMode('cueva')">La Cueva</button>
-            <button class="tab-btn" id="btnGasto" data-mode="gasto" onclick="setMode('gasto')">Gastos</button>
-        </div>
-
-        <div class="form-section">
-            <div class="input-group">
-                <label id="labelConcepto">Concepto (Sueldo)</label>
-                <input type="text" id="concepto" placeholder="Ej. Quincena, Bono, Venta, etc.">
+        <div id="ingresos" class="tab-content active">
+            <div class="form-card">
+                <div class="input-group">
+                    <label>Concepto de Ingreso</label>
+                    <input type="text" id="ing_concepto" placeholder="Ej. Venta Barra, Botellas, Cubetas">
+                </div>
+                <div class="input-group">
+                    <label>Monto ($)</label>
+                    <input type="number" id="ing_monto" inputmode="decimal" placeholder="0.00">
+                </div>
+                <button class="action-btn" style="background: var(--green);" onclick="agregarItem('ingresos')">Registrar Ingreso</button>
             </div>
-            <div class="input-group">
-                <label>Monto ($)</label>
-                <input type="number" id="monto" inputmode="decimal" placeholder="0.00">
-            </div>
-            <button class="submit-btn" id="btnRegistrar" onclick="agregarMovimiento()">Registrar Sueldo</button>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Monto</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_ingresos"></tbody>
+            </table>
         </div>
 
-        <div class="history-section">
-            <h2>Historial de Movimientos</h2>
-            <div class="transaction-list" id="listaMovimientos"></div>
+        <div id="gastos" class="tab-content">
+            <div class="form-card">
+                <div class="input-group">
+                    <label>Concepto de Gasto Libre</label>
+                    <input type="text" id="gas_concepto" placeholder="Ej. Hielo, Refrescos, Pago Banda">
+                </div>
+                <div class="input-group">
+                    <label>Monto ($)</label>
+                    <input type="number" id="gas_monto" inputmode="decimal" placeholder="0.00">
+                </div>
+                <button class="action-btn" style="background: var(--red);" onclick="agregarItem('gastos')">Registrar Gasto</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Gasto</th>
+                        <th>Monto</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_gastos"></tbody>
+            </table>
         </div>
+
+        <div id="meseros" class="tab-content">
+            <div class="form-card">
+                <div class="input-group">
+                    <label>Nombre del Vendedor / Mesero</label>
+                    <input type="text" id="mes_nombre" placeholder="Ej. Carlos Martínez">
+                </div>
+                <button class="action-btn" style="background: var(--purple);" onclick="agregarMesero()">Agregar Vendedor</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nombre de Personal Activo</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_meseros"></tbody>
+            </table>
+        </div>
+
+        <div id="totales" class="tab-content">
+            <div class="total-card">
+                <h3>Total Ingresos (+)</h3>
+                <div class="total-val g" id="tot_ingresos">$0.00</div>
+            </div>
+            <div class="total-card">
+                <h3>Total Gastos (-)</h3>
+                <div class="total-val r" id="tot_gastos">$0.00</div>
+            </div>
+            <div class="total-card" style="border-width: 2px;">
+                <h3>Ganancia Neta (Total)</h3>
+                <div class="total-val a" id="tot_neto">$0.00</div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        let currentMode = 'sueldo';
-        let movimientos = JSON.parse(localStorage.getItem('charmander_movs')) || [];
+        // Carga o inicializa los datos dinámicos en el almacenamiento del iPhone
+        let appData = JSON.parse(localStorage.getItem('cueva_app_data')) || {
+            ingresos: [],
+            gastos: [],
+            meseros: []
+        };
 
-        function setMode(mode) {
-            currentMode = mode;
-            
-            document.getElementById('btnSueldo').classList.toggle('active', mode === 'sueldo');
-            document.getElementById('btnCueva').classList.toggle('active', mode === 'cueva');
-            document.getElementById('btnGasto').classList.toggle('active', mode === 'gasto');
-            
-            const label = document.getElementById('labelConcepto');
-            const btn = document.getElementById('btnRegistrar');
-            
-            if (mode === 'sueldo') {
-                label.innerText = 'Concepto (Sueldo)';
-                btn.innerText = 'Registrar Sueldo';
-                btn.style.background = 'var(--income-sueldo)';
-            } else if (mode === 'cueva') {
-                label.innerText = 'Concepto (La Cueva)';
-                btn.innerText = 'Registrar Ingreso Bar';
-                btn.style.background = 'var(--income-cueva)';
-            } else {
-                label.innerText = 'Concepto del Gasto';
-                btn.innerText = 'Registrar Gasto';
-                btn.style.background = 'var(--expense)';
-            }
+        function save() {
+            localStorage.setItem('cueva_app_data', JSON.stringify(appData));
+            renderAll();
         }
 
-        function actualizarUI() {
-            const lista = document.getElementById('listaMovimientos');
-            lista.innerHTML = '';
-            let balance = 0;
-
-            movimientos.forEach(mov => {
-                if (mov.tipo === 'sueldo' || mov.tipo === 'cueva') {
-                    balance += mov.monto;
-                } else {
-                    balance -= mov.monto;
-                }
-
-                let tagTxt = mov.tipo === 'sueldo' ? 'Sueldo' : mov.tipo === 'cueva' ? 'La Cueva' : 'Gasto';
-
-                const item = document.createElement('div');
-                item.className = 'transaction-item';
-                item.innerHTML = `
-                    <div class="trans-info">
-                        <p>${mov.concepto} <span>${tagTxt}</span></p>
-                        <span class="trans-date">${mov.fecha}</span>
-                    </div>
-                    <div class="trans-amount ${mov.tipo}">
-                        ${(mov.tipo === 'sueldo' || mov.tipo === 'cueva') ? '+' : '-'}$${mov.monto.toFixed(2)}
-                    </div>
-                `;
-                lista.appendChild(item);
-            });
-
-            document.getElementById('totalBalance').innerText = `$${balance.toFixed(2)}`;
-            localStorage.setItem('charmander_movs', JSON.stringify(movimientos));
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
         }
 
-        function agregarMovimiento() {
-            const concepto = document.getElementById('concepto').value.trim();
-            const monto = parseFloat(document.getElementById('monto').value);
+        function agregarItem(tipo) {
+            const prefix = tipo === 'ingresos' ? 'ing' : 'gas';
+            const concepto = document.getElementById(`${prefix}_concepto`).value.trim();
+            const monto = parseFloat(document.getElementById(`${prefix}_monto`).value);
 
             if (!concepto || isNaN(monto) || monto <= 0) {
-                alert('Mete un concepto y un monto válido, mi estimado.');
+                alert('Mete un concepto y monto válidos, por favor.');
                 return;
             }
 
-            const nuevoMov = {
+            appData[tipo].push({
                 id: Date.now(),
                 concepto: concepto,
-                monto: monto,
-                tipo: currentMode,
-                fecha: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit' })
-            };
+                monto: monto
+            });
 
-            movimientos.unshift(nuevoMov);
-            actualizarUI();
-
-            document.getElementById('concepto').value = '';
-            document.getElementById('monto').value = '';
+            document.getElementById(`${prefix}_concepto`).value = '';
+            document.getElementById(`${prefix}_monto`).value = '';
+            save();
         }
 
-        setMode('sueldo');
-        actualizarUI();
+        function agregarMesero() {
+            const nombre = document.getElementById('mes_nombre').value.trim();
+            if (!nombre) {
+                alert('Por favor escribe el nombre del vendedor.');
+                return;
+            }
+
+            appData.meseros.push({
+                id: Date.now(),
+                nombre: nombre
+            });
+
+            document.getElementById('mes_nombre').value = '';
+            save();
+        }
+
+        function eliminarItem(tipo, id) {
+            if(confirm('¿Seguro que quieres borrar este registro?')) {
+                appData[tipo] = appData[tipo].filter(item => item.id !== id);
+                save();
+            }
+        }
+
+        function renderAll() {
+            // Render de Ingresos
+            const tbodyIng = document.getElementById('tabla_ingresos');
+            tbodyIng.innerHTML = appData.ingresos.length === 0 ? '<tr><td colspan="3" style="color:var(--text-secondary); text-align:center;">No hay ingresos.</td></tr>' : '';
+            let sumIng = 0;
+            appData.ingresos.forEach(item => {
+                sumIng += item.monto;
+                tbodyIng.innerHTML += `
+                    <tr>
+                        <td>${item.concepto}</td>
+                        <td style="color: var(--green); font-weight:700;">+$${item.monto.toFixed(2)}</td>
+                        <td><button class="delete-btn" onclick="eliminarItem('ingresos', ${item.id})">🗑️</button></td>
+                    </tr>
+                `;
+            });
+
+            // Render de Gastos libres
+            const tbodyGas = document.getElementById('tabla_gastos');
+            tbodyGas.innerHTML = appData.gastos.length === 0 ? '<tr><td colspan="3" style="color:var(--text-secondary); text-align:center;">No hay gastos registrados.</td></tr>' : '';
+            let sumGas = 0;
+            appData.gastos.forEach(item => {
+                sumGas += item.monto;
+                tbodyGas.innerHTML += `
+                    <tr>
+                        <td>${item.concepto}</td>
+                        <td style="color: var(--red); font-weight:700;">-$${item.monto.toFixed(2)}</td>
+                        <td><button class="delete-btn" onclick="eliminarItem('gastos', ${item.id})">🗑️</button></td>
+                    </tr>
+                `;
+            });
+
+            // Render de Meseros con botón de basura
+            const tbodyMes = document.getElementById('tabla_meseros');
+            tbodyMes.innerHTML = appData.meseros.length === 0 ? '<tr><td colspan="2" style="color:var(--text-secondary); text-align:center;">No hay meseros asignados.</td></tr>' : '';
+            appData.meseros.forEach(m => {
+                tbodyMes.innerHTML += `
+                    <tr>
+                        <td><strong>${m.nombre}</strong></td>
+                        <td><button class="delete-btn" onclick="eliminarItem('meseros', ${m.id})">🗑️</button></td>
+                    </tr>
+                `;
+            });
+
+            // Actualizar pestaña de totales
+            document.getElementById('tot_ingresos').innerText = `$${sumIng.toFixed(2)}`;
+            document.getElementById('tot_gastos').innerText = `$${sumGas.toFixed(2)}`;
+            
+            const neto = sumIng - sumGas;
+            const netoEl = document.getElementById('tot_neto');
+            netoEl.innerText = `${neto >= 0 ? '' : '-'}$${Math.abs(neto).toFixed(2)}`;
+            netoEl.style.color = neto >= 0 ? 'var(--green)' : 'var(--red)';
+        }
+
+        // Carga inicial al tiro
+        renderAll();
     </script>
 </body>
 </html>
