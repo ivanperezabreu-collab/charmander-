@@ -18,8 +18,9 @@
             --surface: #1E1E1E;
             --text: #FFFFFF;
             --text-secondary: #AAAAAA;
-            --income: #4CAF50;
-            --expense: #F44336;
+            --income-sueldo: #4CAF50; /* Verde */
+            --income-cueva: #00BCD4;  /* Azul La Cueva */
+            --expense: #F44336;       /* Rojo */
         }
 
         * {
@@ -101,13 +102,14 @@
             color: var(--accent);
         }
 
-        /* Tabs */
+        /* Tabs de 3 opciones fijas */
         .tabs {
             display: flex;
             background: var(--surface);
             border-radius: 12px;
             padding: 5px;
             margin-bottom: 20px;
+            gap: 4px;
         }
 
         .tab-btn {
@@ -115,16 +117,27 @@
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 12px 5px;
+            font-size: 14px;
+            font-weight: 700;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
 
-        .tab-btn.active {
-            background: var(--primary);
+        .tab-btn.active[data-mode="sueldo"] {
+            background: var(--income-sueldo);
+            color: white;
+        }
+
+        .tab-btn.active[data-mode="cueva"] {
+            background: var(--income-cueva);
+            color: white;
+        }
+
+        .tab-btn.active[data-mode="gasto"] {
+            background: var(--expense);
             color: white;
         }
 
@@ -206,15 +219,27 @@
         }
 
         .trans-info span {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        .trans-date {
             font-size: 12px;
             color: var(--text-secondary);
+            margin-top: 4px;
+            display: block;
         }
 
         .trans-amount {
             font-weight: 700;
         }
 
-        .trans-amount.ingreso { color: var(--income); }
+        .trans-amount.sueldo { color: var(--income-sueldo); }
+        .trans-amount.cueva { color: var(--income-cueva); }
         .trans-amount.gasto { color: var(--expense); }
     </style>
 </head>
@@ -243,20 +268,21 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" id="btnIngreso" onclick="setMode('ingreso')">Ingresos</button>
-            <button class="tab-btn" id="btnGasto" onclick="setMode('gasto')">Gastos</button>
+            <button class="tab-btn active" id="btnSueldo" data-mode="sueldo" onclick="setMode('sueldo')">Sueldo</button>
+            <button class="tab-btn" id="btnCueva" data-mode="cueva" onclick="setMode('cueva')">La Cueva</button>
+            <button class="tab-btn" id="btnGasto" data-mode="gasto" onclick="setMode('gasto')">Gastos</button>
         </div>
 
         <div class="form-section">
             <div class="input-group">
-                <label id="labelConcepto">Concepto del Ingreso</label>
-                <input type="text" id="concepto" placeholder="Ej. Venta, Sueldo, etc.">
+                <label id="labelConcepto">Concepto (Sueldo)</label>
+                <input type="text" id="concepto" placeholder="Ej. Quincena, Bono, Venta, etc.">
             </div>
             <div class="input-group">
                 <label>Monto ($)</label>
                 <input type="number" id="monto" inputmode="decimal" placeholder="0.00">
             </div>
-            <button class="submit-btn" onclick="agregarMovimiento()">Registrar Movimiento</button>
+            <button class="submit-btn" id="btnRegistrar" onclick="agregarMovimiento()">Registrar Sueldo</button>
         </div>
 
         <div class="history-section">
@@ -266,14 +292,34 @@
     </div>
 
     <script>
-        let currentMode = 'ingreso';
+        let currentMode = 'sueldo';
         let movimientos = JSON.parse(localStorage.getItem('charmander_movs')) || [];
 
         function setMode(mode) {
             currentMode = mode;
-            document.getElementById('btnIngreso').classList.toggle('active', mode === 'ingreso');
+            
+            // Actualizar pestañas activas
+            document.getElementById('btnSueldo').classList.toggle('active', mode === 'sueldo');
+            document.getElementById('btnCueva').classList.toggle('active', mode === 'cueva');
             document.getElementById('btnGasto').classList.toggle('active', mode === 'gasto');
-            document.getElementById('labelConcepto').innerText = mode === 'ingreso' ? 'Concepto del Ingreso' : 'Concepto del Gasto';
+            
+            // Cambiar textos según selección
+            const label = document.getElementById('labelConcepto');
+            const btn = document.getElementById('btnRegistrar');
+            
+            if (mode === 'sueldo') {
+                label.innerText = 'Concepto (Sueldo)';
+                btn.innerText = 'Registrar Sueldo';
+                btn.style.background = 'var(--income-sueldo)';
+            } else if (mode === 'cueva') {
+                label.innerText = 'Concepto (La Cueva)';
+                btn.innerText = 'Registrar Ingreso Bar';
+                btn.style.background = 'var(--income-cueva)';
+            } else {
+                label.innerText = 'Concepto del Gasto';
+                btn.innerText = 'Registrar Gasto';
+                btn.style.background = 'var(--expense)';
+            }
         }
 
         function actualizarUI() {
@@ -282,21 +328,24 @@
             let balance = 0;
 
             movimientos.forEach(mov => {
-                if (mov.tipo === 'ingreso') {
+                if (mov.tipo === 'sueldo' || mov.tipo === 'cueva') {
                     balance += mov.monto;
                 } else {
                     balance -= mov.monto;
                 }
 
+                // Darle formato a la etiqueta de tipo
+                let tagTxt = mov.tipo === 'sueldo' ? 'Sueldo' : mov.tipo === 'cueva' ? 'La Cueva' : 'Gasto';
+
                 const item = document.createElement('div');
                 item.className = 'transaction-item';
                 item.innerHTML = `
                     <div class="trans-info">
-                        <p>${mov.concepto}</p>
-                        <span>${mov.fecha}</span>
+                        <p>${mov.concepto} <span>${tagTxt}</span></p>
+                        <span class="trans-date">${mov.fecha}</span>
                     </div>
                     <div class="trans-amount ${mov.tipo}">
-                        ${mov.tipo === 'ingreso' ? '+' : '-'}$${mov.monto.toFixed(2)}
+                        ${(mov.tipo === 'sueldo' || mov.tipo === 'cueva') ? '+' : '-'}$${mov.monto.toFixed(2)}
                     </div>
                 `;
                 lista.appendChild(item);
@@ -311,7 +360,7 @@
             const monto = parseFloat(document.getElementById('monto').value);
 
             if (!concepto || isNaN(monto) || monto <= 0) {
-                alert('Por favor mete un concepto y un monto válido.');
+                alert('Mete un concepto y un monto válido, mi estimado.');
                 return;
             }
 
@@ -320,7 +369,7 @@
                 concepto: concepto,
                 monto: monto,
                 tipo: currentMode,
-                fecha: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })
+                fecha: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit' })
             };
 
             movimientos.unshift(nuevoMov);
@@ -330,6 +379,8 @@
             document.getElementById('monto').value = '';
         }
 
+        // Iniciar en modo sueldo por defecto
+        setMode('sueldo');
         actualizarUI();
     </script>
 </body>
